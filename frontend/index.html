@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MenuMind AI</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">🍽️</span>
+      <h1 class="logo-text">MenuMind AI</h1>
+    </div>
+    <p class="sidebar-tagline">Turn messy reviews into sharp business decisions.</p>
+
+    <hr class="sidebar-divider" />
+
+
+    <div class="sidebar-section">
+      <label class="sidebar-label" for="api-key">OpenAI API Key</label>
+      <input
+        type="password"
+        id="api-key"
+        class="sidebar-input"
+        placeholder="sk-..."
+      />
+      <p class="sidebar-hint">Leave empty to use demo mode</p>
+    </div>
+
+    <hr class="sidebar-divider" />
+
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" data-view="owner">
+        <span class="nav-icon">📊</span>
+        <span>For Restaurant Owners</span>
+      </button>
+      <button class="nav-btn" data-view="foodie">
+        <span class="nav-icon">🔍</span>
+        <span>For Foodies</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <p>Powered by OpenAI GPT-4</p>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <section id="view-owner" class="view active">
+
+      <div class="page-header">
+        <h2 class="page-title">Business Performance & Margin Optimization Dashboard</h2>
+        <p class="page-subtitle">Paste your reviews below and let AI find exactly what's hurting your profits.</p>
+      </div>
+
+      <div class="metrics-row">
+        <div class="metric-card">
+          <span class="metric-label">Overall Rating</span>
+          <span class="metric-value" id="metric-rating">—</span>
+          <span class="metric-sub">out of 5.0</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Critical Feedback Rate</span>
+          <span class="metric-value" id="metric-feedback">—</span>
+          <span class="metric-sub">of reviews</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Financial Margin Risk</span>
+          <span class="metric-value" id="metric-risk">—</span>
+          <span class="metric-sub" id="metric-risk-sub">awaiting analysis</span>
+        </div>
+      </div>
+
+      <div class="input-section">
+        <label class="input-label" for="reviews-input">Customer Reviews</label>
+        <textarea
+          id="reviews-input"
+          class="reviews-textarea"
+          rows="10"
+          placeholder="Paste customer reviews here..."
+        >1. The Truffle Burger looked amazing on the menu but the bun was completely soggy and wet. Fell apart before I even finished half of it. The patty itself was great though. Won't order it again unless they fix this.
+
+2. Waited over 40 minutes for cold pasta on a Tuesday night. The restaurant was half empty! Our waiter disappeared after taking our order. The steak at the next table looked incredible though.
+
+3. Came in for the signature Truffle Burger after seeing it on Instagram. Big disappointment — soggy bun ruined the whole thing. The fries were perfect and crispy. Service was fast at least.
+
+4. The ambiance is beautiful, great for dates. But the kitchen is clearly struggling on weekends. Ordered the salmon — overcooked and dry. My partner's risotto was cold in the center.
+
+5. Third time visiting. Love this place but the Truffle Burger issue is still not fixed. I've complained twice. It's your highest priced item — please sort the bun situation out. The truffle aioli is INCREDIBLE though.
+
+6. Saturday night chaos. Two servers for the whole floor. Waited 55 minutes, food arrived lukewarm. The desserts saved the evening — the chocolate lava cake is a 10/10. Management needs to hire more weekend staff ASAP.</textarea>
+      </div>
+
+      <button class="btn btn-primary" id="btn-analyze">
+        🔍 Run Flaw &amp; Margin Analysis
+      </button>
+
+      <div id="analysis-result" class="result-box hidden">
+        <div class="result-content" id="analysis-content"></div>
+      </div>
+
+      <button class="btn btn-secondary hidden" id="btn-campaign">
+        🚀 Generate Recovery Campaign
+      </button>
+
+      <div id="campaign-result" class="campaign-box hidden">
+        <div class="campaign-header">
+          <span>📱 Instagram Recovery Campaign</span>
+          <button class="copy-btn" id="copy-campaign">Copy post</button>
+        </div>
+        <div class="result-content" id="campaign-content"></div>
+      </div>
+
+    </section>
+
+    <section id="view-foodie" class="view hidden">
+
+      <div class="page-header">
+        <h2 class="page-title">Smart Restaurant Explorer</h2>
+        <p class="page-subtitle">Get the real truth behind the reviews — instantly.</p>
+      </div>
+
+      <div class="search-row">
+        <input
+          type="text"
+          id="restaurant-input"
+          class="search-input"
+          placeholder="Type a restaurant name..."
+          value="The Local Bistro"
+        />
+        <button class="btn btn-primary" id="btn-vibe">
+          ✨ Check Vibe &amp; Food Summary
+        </button>
+      </div>
+
+      <div id="foodie-result" class="foodie-cards hidden">
+        <div class="vibe-card card-good">
+          <h3 class="card-title">👍 The Good — What to Order</h3>
+          <div class="card-body" id="card-good"></div>
+        </div>
+        <div class="vibe-card card-bad">
+          <h3 class="card-title">👎 The Bad — What to Avoid</h3>
+          <div class="card-body" id="card-bad"></div>
+        </div>
+        <div class="vibe-card card-tip">
+          <h3 class="card-title">💡 Pro Tip — Vibe &amp; Timing</h3>
+          <div class="card-body" id="card-tip"></div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner"></div>
+    <p class="loading-text" id="loading-text">Analyzing reviews...</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
